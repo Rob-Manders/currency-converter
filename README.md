@@ -10,4 +10,10 @@ Add your API key to `example.env`, then rename the file `.env`.
 
 ## Run Locally
 
+Install dependencies:
+
+`npm install`
+
+Run:
+
 `npm run dev`
