@@ -18,8 +18,9 @@ function App() {
 
 		getCurrencies()
 		.then((c) => setCurrencies(c))
-		.catch(() => {
+		.catch((error) => {
 			setError('Unable to fetch data from Currency Beacon')
+			console.error(error)
 		})
 	}, [])
 
@@ -28,7 +29,7 @@ function App() {
 			<Header/>
 
 			<main>
-				{error && <p>{error}</p>}
+				{error && <p className='error'>{error}</p>}
 				{
 					currencies
 						? <ConverterForm currencies={currencies}/>

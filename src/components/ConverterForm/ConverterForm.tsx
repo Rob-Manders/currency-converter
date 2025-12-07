@@ -15,7 +15,8 @@ export default function ConverterForm({ currencies }: Props) {
 	const [fromCurrency, setFromCurrency] = useState<Currency>()
 	const [toCurrency, setToCurrency] = useState<Currency>()
 	const [amount, setAmount] = useState<number>(0)
-	const [result, setResult] = useState<string>("")
+	const [result, setResult] = useState<string>('')
+	const [error, setError] = useState<string | null>()
 
 	useEffect(() => {
 		if (!currencies) {
@@ -49,30 +50,34 @@ export default function ConverterForm({ currencies }: Props) {
 
 		convertCurrencies(fromCurrency, toCurrency, amount)
 		.then((r) => setResult(r))
+		.catch((error) => {
+			setError('Unable to get response from conversion request')
+			console.error(error)
+		})
 	}
 
 	return (
 		<>
 			{currencies && fromCurrency && toCurrency &&
                 <div className={styles.converterForm}>
-                  <div className={styles.selectors}>
-                    <Select
-                        value={fromCurrency.getShortCode()}
-                        options={selectOptions}
-                        onChange={(v) => setFromCurrency(currencies?.get(v))}
-                    />
-                    TO
-                    <Select
-                        value={toCurrency.getShortCode()}
-                        options={selectOptions}
-                        onChange={(v) => setToCurrency(currencies?.get(v))}
-                    />
-                  </div>
+					<div className={styles.selectors}>
+						<Select
+							value={fromCurrency.getShortCode()}
+							options={selectOptions}
+							onChange={(v) => setFromCurrency(currencies?.get(v))}
+						/>
+						TO
+						<Select
+							value={toCurrency.getShortCode()}
+							options={selectOptions}
+							onChange={(v) => setToCurrency(currencies?.get(v))}
+						/>
+					</div>
 
-                  <NumberInput value={amount} onChange={(v) => setAmount(v)}/>
-                  <button className={styles.button} onClick={() => convertCurrency()}>Convert</button>
+					<NumberInput value={amount} onChange={(v) => setAmount(v)}/>
+					<button className={styles.button} onClick={() => convertCurrency()}>Convert</button>
 
-                  <p className={styles.result}>{result}</p>
+					{error ? <p className={styles.error}>{error}</p> : <p className={styles.result}>{result}</p>}
                 </div>
 			}
 		</>

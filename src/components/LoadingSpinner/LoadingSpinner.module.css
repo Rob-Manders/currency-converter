@@ -1,0 +1,24 @@
+.loadingSpinner {
+	margin: 2rem;
+}
+
+.spinner {
+	font-size: 3rem;
+	font-weight: 700;
+	color: var(--primary);
+	text-align: center;
+	animation: spin 4s infinite linear;
+	margin: 0;
+}
+
+.loadingText {
+	font-weight: 700;
+	color: var(--secondary);
+	margin-top: 2rem;
+}
+
+@keyframes spin {
+	100% {
+		transform: rotate(360deg);
+	}
+}

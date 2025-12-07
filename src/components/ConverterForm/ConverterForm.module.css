@@ -40,3 +40,9 @@
 	font-weight: 700;
 	color: var(--primary);
 }
+
+.error {
+	text-align: center;
+	font-weight: 700;
+	color: var(--error);
+}

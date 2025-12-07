@@ -1,0 +1,9 @@
+main {
+	width: 280px;
+}
+
+.error {
+	text-align: center;
+	font-weight: 700;
+	color: var(--error);
+}

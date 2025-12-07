@@ -14,7 +14,7 @@ export default function NumberInput({ value, onChange }: Props) {
 		}
 	}
 
-	return(
+	return (
 		<div className={styles.numberInput}>
 			<label className={styles.label} htmlFor='numberInput'>AMOUNT</label>
 			<input name='numberInput' className={styles.input} value={value} onChange={(e) => updateValue(e)}/>
