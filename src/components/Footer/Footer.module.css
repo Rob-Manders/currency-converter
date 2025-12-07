@@ -1,0 +1,11 @@
+.footer {
+	margin-top: auto;
+	margin-bottom: 1.5rem;
+}
+
+.footerLink {
+	outline: none;
+	font-size: 0.8rem;
+	margin: 0.5rem;
+	opacity: 0.8;
+}
