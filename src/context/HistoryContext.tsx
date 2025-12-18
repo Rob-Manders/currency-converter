@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { Conversion, History } from '../history/history'
+import { Conversion, History } from '../history/history.ts'
 
 export const HistoryContext = createContext<any>({})
 
