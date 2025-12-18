@@ -25,7 +25,5 @@ export class History {
 		if (this.conversions.length > this.maxLength) {
 			this.conversions.shift()
 		}
-
-		return this.conversions
 	}
 }
