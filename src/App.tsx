@@ -6,6 +6,8 @@ import Header from './components/Header/Header.tsx'
 import Footer from './components/Footer/Footer.tsx'
 import ConverterForm from './components/ConverterForm/ConverterForm.tsx'
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner.tsx'
+import HistoryContextProvider from './context/HistoryContext.tsx';
+import HistoryDisplay from './components/HistoryDisplay/HistoryDisplay.tsx';
 
 function App() {
 	const [currencies, setCurrencies] = useState<Currencies>()
@@ -25,7 +27,7 @@ function App() {
 	}, [])
 
 	return (
-		<>
+		<HistoryContextProvider>
 			<Header/>
 
 			<main>
@@ -35,10 +37,12 @@ function App() {
 						? <ConverterForm currencies={currencies}/>
 						: !error && <LoadingSpinner/>
 				}
+
+				<HistoryDisplay />
 			</main>
 
 			<Footer/>
-		</>
+		</HistoryContextProvider>
 	)
 }
 

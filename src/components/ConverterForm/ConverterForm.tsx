@@ -6,6 +6,8 @@ import type { SelectOption } from '../../types.ts'
 import { convertCurrencies } from '../../currency-beacon/convertCurrencies.ts'
 import { useEffect, useMemo, useState } from 'react'
 import NumberInput from '../NumberInput/NumberInput.tsx'
+import { useContext } from 'react'
+import { HistoryContext } from '../../context/HistoryContext.tsx';
 
 interface Props {
 	currencies: Currencies
@@ -17,6 +19,8 @@ export default function ConverterForm({ currencies }: Props) {
 	const [amount, setAmount] = useState<number>(0)
 	const [result, setResult] = useState<string>('')
 	const [error, setError] = useState<string | null>()
+
+	const { add } = useContext(HistoryContext)
 
 	useEffect(() => {
 		if (!currencies) {
@@ -49,7 +53,16 @@ export default function ConverterForm({ currencies }: Props) {
 		}
 
 		convertCurrencies(fromCurrency, toCurrency, amount)
-		.then((r) => setResult(r))
+		.then((r) => {
+			setResult(r);
+
+			add({
+				from: fromCurrency,
+				to: toCurrency,
+				amount: amount,
+				result: r
+			})
+		})
 		.catch((error) => {
 			setError('Unable to get response from conversion request')
 			console.error(error)
