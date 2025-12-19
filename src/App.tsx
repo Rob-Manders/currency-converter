@@ -6,10 +6,12 @@ import Header from './components/Header/Header.tsx'
 import Footer from './components/Footer/Footer.tsx'
 import ConverterForm from './components/ConverterForm/ConverterForm.tsx'
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner.tsx'
-import HistoryContextProvider from './context/HistoryContext.tsx';
-import HistoryDisplay from './components/HistoryDisplay/HistoryDisplay.tsx';
+import ResultsContextProvider from './context/ResultsContext.tsx';
+import History from './components/History/History.tsx';
+import Result from './components/Result/Result.tsx'
+import ErrorMessage from './components/Error/ErrorMessage.tsx'
 
-function App() {
+export default function App() {
 	const [currencies, setCurrencies] = useState<Currencies>()
 	const [error, setError] = useState<string | null>(null)
 
@@ -27,23 +29,22 @@ function App() {
 	}, [])
 
 	return (
-		<HistoryContextProvider>
+		<ResultsContextProvider>
 			<Header/>
 
 			<main>
-				{error && <p className='error'>{error}</p>}
+				{error && <ErrorMessage message={error} />}
 				{
 					currencies
 						? <ConverterForm currencies={currencies}/>
 						: !error && <LoadingSpinner/>
 				}
 
-				<HistoryDisplay />
+				<Result />
+				<History />
 			</main>
 
 			<Footer/>
-		</HistoryContextProvider>
+		</ResultsContextProvider>
 	)
 }
-
-export default App

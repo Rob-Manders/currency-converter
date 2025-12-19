@@ -22,6 +22,10 @@ export class Currency {
 		}
 	}
 
+	getName(): string {
+		return this.name
+	}
+
 	getShortCode(): string {
 		return this.shortCode
 	}
@@ -31,9 +35,9 @@ export class Currency {
 		const localeString = Number(amount.toFixed(this.precision)).toLocaleString('en-GB')
 
 		if (this.symbolFirst) {
-			return `${this.symbol}${localeString}`
+			return `${this.symbol} ${localeString}`
 		}
 
-		return `${localeString}${this.symbol}`
+		return `${localeString} ${this.symbol}`
 	}
 }

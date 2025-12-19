@@ -4,10 +4,11 @@ import type { Currencies } from '../../currency/Currencies.ts'
 import type { Currency } from '../../currency/Currency.ts'
 import type { SelectOption } from '../../types.ts'
 import { convertCurrencies } from '../../currency-beacon/convertCurrencies.ts'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type MouseEvent } from 'react'
 import NumberInput from '../NumberInput/NumberInput.tsx'
 import { useContext } from 'react'
-import { HistoryContext } from '../../context/HistoryContext.tsx';
+import { ResultsContext } from '../../context/ResultsContext.tsx';
+import ErrorMessage from '../Error/ErrorMessage.tsx'
 
 interface Props {
 	currencies: Currencies
@@ -17,10 +18,15 @@ export default function ConverterForm({ currencies }: Props) {
 	const [fromCurrency, setFromCurrency] = useState<Currency>()
 	const [toCurrency, setToCurrency] = useState<Currency>()
 	const [amount, setAmount] = useState<number>(0)
-	const [result, setResult] = useState<string>('')
 	const [error, setError] = useState<string | null>()
 
-	const { add } = useContext(HistoryContext)
+	const results = useContext(ResultsContext)
+	if (!results) {
+		setError('Error initialising application')
+		console.error('Results context is null in ConverterForm component')
+
+		return <p className={styles.error}>{error}</p>
+	}
 
 	useEffect(() => {
 		if (!currencies) {
@@ -47,16 +53,16 @@ export default function ConverterForm({ currencies }: Props) {
 		return options
 	}, [currencies])
 
-	function convertCurrency() {
+	function convertCurrency(event: MouseEvent<HTMLButtonElement>) {
+		event.preventDefault()
+
 		if (!fromCurrency || !toCurrency) {
 			return
 		}
 
 		convertCurrencies(fromCurrency, toCurrency, amount)
 		.then((r) => {
-			setResult(r);
-
-			add({
+			results!.add({
 				from: fromCurrency,
 				to: toCurrency,
 				amount: amount,
@@ -72,7 +78,7 @@ export default function ConverterForm({ currencies }: Props) {
 	return (
 		<>
 			{currencies && fromCurrency && toCurrency &&
-                <div className={styles.converterForm}>
+                <form className={styles.converterForm}>
 					<div className={styles.selectors}>
 						<Select
 							value={fromCurrency.getShortCode()}
@@ -88,10 +94,10 @@ export default function ConverterForm({ currencies }: Props) {
 					</div>
 
 					<NumberInput value={amount} onChange={(v) => setAmount(v)}/>
-					<button className={styles.button} onClick={() => convertCurrency()}>Convert</button>
+					<button className={styles.button} onClick={(event) => convertCurrency(event)}>Convert</button>
 
-					{error ? <p className={styles.error}>{error}</p> : <p className={styles.result}>{result}</p>}
-                </div>
+					{error && <ErrorMessage message={error} />}
+                </form>
 			}
 		</>
 	)

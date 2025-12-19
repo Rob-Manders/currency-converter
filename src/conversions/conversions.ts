@@ -7,23 +7,23 @@ export interface Conversion {
 	result: string
 }
 
-export class History {
-	private maxLength: number
+export class Conversions {
+	private readonly maxLength: number
 	private conversions: Conversion[] = []
 
 	constructor(maxLength: number) {
 		this.maxLength = maxLength
 	}
 
-	getHistory(): Conversion[] {
+	get(): Conversion[] {
 		return this.conversions
 	}
 
 	addConversion(conversion: Conversion) {
-		this.conversions.push(conversion)
+		this.conversions.unshift(conversion)
 
 		if (this.conversions.length > this.maxLength) {
-			this.conversions.shift()
+			this.conversions.pop()
 		}
 	}
 }
