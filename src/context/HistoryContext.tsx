@@ -1,14 +1,16 @@
 import { createContext, useState } from 'react'
-import { Conversion, History } from '../history/history.ts'
+import { type Conversion, History } from '../history/history.ts'
 
 export const HistoryContext = createContext<any>({})
 
+const history = new History(5)
+
 export default function HistoryContextProvider({ children }) {
 	const [ conversions, setConversions ] = useState<Conversion[]>([])
-	const history = new History(5)
 
-	function add(Conversion) {
-		history.addConversion(Conversion)
+	function add(conversion: Conversion) {
+		history.addConversion(conversion)
+
 		setConversions(history.getHistory())
 	}
 

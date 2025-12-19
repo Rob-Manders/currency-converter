@@ -10,8 +10,8 @@ export default function HistoryDisplay() {
 				conversions.map(item => {
 					return (
 						<div>
-							<p>{item.from.Currency.getShortcode}</p>
-							<p>{item.to.Currency.getShortcode}</p>
+							<p>{item.from.Currency.getShortcode()}</p>
+							<p>{item.to.Currency.getShortcode()}</p>
 							<p>{item.value}</p>
 							<p>{item.result}</p>
 						</div>
